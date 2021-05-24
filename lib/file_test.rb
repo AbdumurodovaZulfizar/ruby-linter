@@ -13,4 +13,13 @@ class TestFile
     @errors_number = 0
     @keywords = %w[begin case class def do if module unless]
   end
+
+  def check_spaces
+    @lines.each_with_index do |ele, idx|
+      if ele[-2] == ' ' && !ele.strip.empty?
+        @errors << "line:#{idx + 1}:#{ele.size - 1}: Error: Trailing whitespace detected."
+      end
+      @errors_number += 1
+    end
+  end
 end
