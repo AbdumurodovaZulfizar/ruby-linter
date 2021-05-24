@@ -39,6 +39,7 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
   x86_64-linux
 
 DEPENDENCIES
@@ -47,4 +48,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   2.2.3
+   2.3.0.dev
