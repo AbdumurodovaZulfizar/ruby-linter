@@ -153,9 +153,9 @@ class TestFile
 
   def line_length
     @lines.each_with_index do |line, line_num|
-      next unless line.length > 150
+      next unless line.length > 120
 
-      message_error = "line:#{line_num + 1} Line is too long. [#{line.length}/150]"
+      message_error = "line:#{line_num + 1} Line is too long. [#{line.length}/120]"
       @errors << message_error
       @errors_number += 1
     end
