@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 require_relative '../lib/file_tester'
 
 check = TestFile.new(ARGV.first)
