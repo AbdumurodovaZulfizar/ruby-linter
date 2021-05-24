@@ -1,4 +1,3 @@
-# rubocop:disable all
 class Board
   attr_reader :sets, :grid
   attr_accessor :selections
@@ -13,4 +12,3 @@ class Board
     @grid[@grid.index(number.to_s)] = sym
   end
 end
-# rubocop:enable all

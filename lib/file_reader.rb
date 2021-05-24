@@ -1,5 +1,4 @@
 require 'colorize'
-
 class FileReader
   attr_reader :file_path, :lines, :line_number
 

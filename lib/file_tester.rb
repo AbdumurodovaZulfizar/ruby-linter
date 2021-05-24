@@ -2,7 +2,6 @@ require 'colorize'
 require 'strscan'
 require_relative './file_reader'
 class TestFile
-
   attr_reader :file, :lines, :line_number, :errors, :errors_number
 
   def initialize(file_path)
@@ -20,7 +19,7 @@ class TestFile
       if ele[-2] == ' ' && !ele.strip.empty?
         @errors << "line:#{idx + 1}:#{ele.size - 1}: Error: Trailing whitespace detected."
       end
-      @errors_number+=1
+      @errors_number += 1
     end
   end
 
@@ -55,7 +54,7 @@ class TestFile
 
   def check_class_empty_line(ele, idx)
     mesg = 'Extra empty line detected at class body beginning'
-    return unless ele.strip.split(' ').first.eql?('class')
+    return unless ele.strip.split.first.eql?('class')
 
     log_error("line:#{idx + 2} #{mesg}") if @lines[idx + 1].strip.empty?
   end
@@ -64,22 +63,22 @@ class TestFile
     mesg1 = 'Extra empty line detected at method body beginning'
     mesg2 = 'Use empty lines between method definition'
 
-    return unless ele.strip.split(' ').first.eql?('def')
+    return unless ele.strip.split.first.eql?('def')
 
     log_error("line:#{idx + 2} #{mesg1}") if @lines[idx + 1].strip.empty?
-    log_error("line:#{idx + 1} #{mesg2}") if @lines[idx - 1].strip.split(' ').first.eql?('end')
+    log_error("line:#{idx + 1} #{mesg2}") if @lines[idx - 1].strip.split.first.eql?('end')
   end
 
   def check_end_empty_line(ele, idx)
     mesg = 'Extra empty line detected at block body end'
-    return unless ele.strip.split(' ').first.eql?('end')
+    return unless ele.strip.split.first.eql?('end')
 
     log_error("line:#{idx} #{mesg}") if @lines[idx - 1].strip.empty?
   end
 
   def check_do_empty_line(ele, idx)
     mesg = 'Extra empty line detected at block body beginning'
-    return unless ele.strip.split(' ').include?('do')
+    return unless ele.strip.split.include?('do')
 
     log_error("line:#{idx + 2} #{mesg}") if @lines[idx + 1].strip.empty?
   end
@@ -88,7 +87,7 @@ class TestFile
     keyw_count = 0
     end_count = 0
     @lines.each do |ele|
-      keyw_count += 1 if @keywords.include?(ele.split(' ').first) || ele.split(' ').include?('do')
+      keyw_count += 1 if @keywords.include?(ele.split.first) || ele.split.include?('do')
       end_count += 1 if ele.strip == 'end'
     end
 
@@ -96,6 +95,7 @@ class TestFile
     log_error("Lint/Syntax: Missing 'end'") if status.eql?(1)
     log_error("Lint/Syntax: Unexpected 'end'") if status.eql?(-1)
   end
+  # rubocop:disable Metrics/CyclomaticComplexity
 
   def check_indentation
     mesg = 'IndentationWidth: Use 2 spaces for indentation.'
@@ -103,7 +103,7 @@ class TestFile
     indent_val = 0
 
     @lines.each_with_index do |ele, idx|
-      strip_line = ele.strip.split(' ')
+      strip_line = ele.strip.split
       exp_ele = cur_val * 2
       res_word = %w[class def if elsif until module unless begin case while]
 
@@ -119,10 +119,12 @@ class TestFile
     end
   end
 
+  # rubocop:enable Metrics/CyclomaticComplexity
+
   def indent_error(ele, idx, exp_ele, mesg)
-    strip_line = ele.strip.split(' ')
+    strip_line = ele.strip.split
     emp = ele.match(/^\s*\s*/)
-    end_chk = emp[0].size.eql?(exp_ele.zero? ? 0 : exp_ele-2)
+    end_chk = emp[0].size.eql?(exp_ele.zero? ? 0 : exp_ele - 2)
 
     if ele.strip.eql?('end') || strip_line.first == 'elsif' || strip_line.first == 'when'
       log_error("line:#{idx + 1} #{mesg}") unless end_chk

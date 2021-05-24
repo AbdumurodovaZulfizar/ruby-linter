@@ -6,7 +6,7 @@
 
 **This ruby linter** checks for the follwing errors/warnings:<br>
 1. Check for trailing spaces
-2. Check for wrong indentation
+2. Check for the wrong indentation
 3. Check for missing/unexpected tags i.e. '( )', '[ ]', and '{ }'
 4. Check missing/unexpected end
 5. Check empty line error
