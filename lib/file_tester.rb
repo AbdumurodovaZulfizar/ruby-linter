@@ -12,16 +12,15 @@ class TestFile
     @line_number = @file.line_number
     @errors = []
     @keywords = %w[begin case class def do if module unless]
+    @errors_number = 0
   end
-
-  private
 
   def check_spaces
     @lines.each_with_index do |ele, idx|
       if ele[-2] == ' ' && !ele.strip.empty?
         @errors << "line:#{idx + 1}:#{ele.size - 1}: Error: Trailing whitespace detected."
       end
-      errors_number+=1
+      @errors_number+=1
     end
   end
 
@@ -106,7 +105,7 @@ class TestFile
     @lines.each_with_index do |ele, idx|
       strip_line = ele.strip.split(' ')
       exp_ele = cur_val * 2
-      res_word = %w[class def if elsif until module unless begin case]
+      res_word = %w[class def if elsif until module unless begin case while]
 
       next unless !ele.strip.empty? || !strip_line.first.eql?('#')
 
@@ -123,7 +122,7 @@ class TestFile
   def indent_error(ele, idx, exp_ele, mesg)
     strip_line = ele.strip.split(' ')
     emp = ele.match(/^\s*\s*/)
-    end_chk = emp[0].size.eql?(exp_ele.zero? ? 0 : exp_ele - 2)
+    end_chk = emp[0].size.eql?(exp_ele.zero? ? 0 : exp_ele-2)
 
     if ele.strip.eql?('end') || strip_line.first == 'elsif' || strip_line.first == 'when'
       log_error("line:#{idx + 1} #{mesg}") unless end_chk
@@ -132,12 +131,21 @@ class TestFile
     end
   end
 
-  def check_camelcase
+  def check_camelcase_class
     @lines.each_with_index do |line, line_num|
       next unless line.match(/class\b/) && !line.match(/\b[A-Z]/)
 
-      message_error = "#{@file_path}: in line:#{line_num + 1}
-E: Use CamelCase after class keyword"
+      message_error = "line:#{line_num + 1} Use CamelCase after class keyword"
+      @errors << message_error
+      @errors_number += 1
+    end
+  end
+
+  def check_camelcase_module
+    @lines.each_with_index do |line, line_num|
+      next unless line.match(/module\b/) && !line.match(/\b[A-Z]/)
+
+      message_error = "line:#{line_num + 1} Use CamelCase after module keyword"
       @errors << message_error
       @errors_number += 1
     end
@@ -145,10 +153,9 @@ E: Use CamelCase after class keyword"
 
   def line_length
     @lines.each_with_index do |line, line_num|
-      next unless line.length > 120
+      next unless line.length > 150
 
-      message_error = "#{@file_path}: in line:#{line_num + 1}
-E: Line is too long. [#{line.length}/120]"
+      message_error = "line:#{line_num + 1} Line is too long. [#{line.length}/150]"
       @errors << message_error
       @errors_number += 1
     end
@@ -158,8 +165,7 @@ E: Line is too long. [#{line.length}/120]"
     @lines.each_with_index do |line, line_num|
       next unless line.match(/def\b/) && !@lines[line_num - 1].strip.empty?
 
-      message_error = "#{@file_path}: in line:#{line_num + 1}
-E: Expected empty line before def keyword"
+      message_error = "line:#{line_num + 1} Expected empty line before def keyword"
       @errors << message_error
       @errors_number += 1
     end
