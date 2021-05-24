@@ -1,8 +1,9 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
 # Capstone Project - Ruby linter
-## Welcome to Zulfizar and Angel's interesting game 🙌
-## Game description
+
+## Game description📄
+
 **This ruby linter** checks for the follwing errors/warnings:<br>
 1. Check for trailing spaces
 2. Check for wrong indentation
@@ -14,9 +15,9 @@
 8. Check line length
 9. Check space before methods
 
-#### Below you can see good and bad cod examples and their test results on console
+#### Below you can see good, bad and empty code examples and their test results on console
 
-Good code passes this test successfully!
+Good code passes this test successfully!👍
 ~~~ruby
 # Good Code
 
@@ -36,9 +37,9 @@ class Board
 end
 ~~~
 Console uotput
-<img src="./Images/good_test.jpg" alt="" style="width: 100%;">
+<img src="./Images/good_test.PNG" alt="" style="width: 100%;">
 
-Bad code passes this test unsuccessfully!
+Bad code passes this test unsuccessfully!👎
 ~~~ruby
 # Bad Code
 
@@ -59,9 +60,9 @@ end
 end
 ~~~
 Console uotput
-<img src="./Images/bad_test.jpg" alt="" style="width: 100%;">
+<img src="./Images/bad_test.PNG" alt="" style="width: 100%;">
 
-Empty file shows warning to the user!
+Empty file shows warning to the user!👐
 ~~~ruby
 # Emty Code
 
@@ -74,13 +75,14 @@ Empty file shows warning to the user!
 
 ~~~
 Console uotput
-<img src="./Images/empty_test.jpg" alt="" style="width: 100%;">
+<img src="./Images/empty_test.PNG" alt="" style="width: 100%;">
 
 
 ## Content
 
-* [Gameplay Instructions](#gameplay-instructions)
-* [RSpec test Instructions](#test-instructions)
+* [Necessary requirements](#necessary-requirements)
+* [Getting started](#getting-started)
+* [RSpec test Instructions](#rspec-test-instructions)
 * [Built With](#built-with)
 * [Getting Started](#getting-started)
 * [Dependencies](#dependencies)
@@ -109,7 +111,7 @@ Console uotput
   <li>Type `rspec`</li>
 </ol>
 
-### Built With
+## Built With
 
 - <code><img height="20" src="https://www.ruby-lang.org/images/header-ruby-logo.png"></code> Ruby Language <br>
 - ![Git](https://img.shields.io/badge/-Git-05122A?style=flat&logo=git)&nbsp; Git<br>
