@@ -2,8 +2,8 @@ require 'colorize'
 require 'strscan'
 require_relative './file_reader'
 class TestFile
-  
-  attr_reader :file, :lines, :line_number, :errors
+
+  attr_reader :file, :lines, :line_number, :errors, :errors_number
 
   def initialize(file_path)
     @file_path = file_path
@@ -21,6 +21,7 @@ class TestFile
       if ele[-2] == ' ' && !ele.strip.empty?
         @errors << "line:#{idx + 1}:#{ele.size - 1}: Error: Trailing whitespace detected."
       end
+      errors_number+=1
     end
   end
 
@@ -57,7 +58,7 @@ class TestFile
     mesg = 'Extra empty line detected at class body beginning'
     return unless ele.strip.split(' ').first.eql?('class')
 
-    log_error("line:#{idx + 2} #{mesg}") if @checker.file_lines[idx + 1].strip.empty?
+    log_error("line:#{idx + 2} #{mesg}") if @lines[idx + 1].strip.empty?
   end
 
   def check_def_empty_line(ele, idx)
@@ -66,22 +67,22 @@ class TestFile
 
     return unless ele.strip.split(' ').first.eql?('def')
 
-    log_error("line:#{idx + 2} #{mesg1}") if @checker.file_lines[idx + 1].strip.empty?
-    log_error("line:#{idx + 1} #{mesg2}") if @checker.file_lines[idx - 1].strip.split(' ').first.eql?('end')
+    log_error("line:#{idx + 2} #{mesg1}") if @lines[idx + 1].strip.empty?
+    log_error("line:#{idx + 1} #{mesg2}") if @lines[idx - 1].strip.split(' ').first.eql?('end')
   end
 
   def check_end_empty_line(ele, idx)
     mesg = 'Extra empty line detected at block body end'
     return unless ele.strip.split(' ').first.eql?('end')
 
-    log_error("line:#{idx} #{mesg}") if @checker.file_lines[idx - 1].strip.empty?
+    log_error("line:#{idx} #{mesg}") if @lines[idx - 1].strip.empty?
   end
 
   def check_do_empty_line(ele, idx)
     mesg = 'Extra empty line detected at block body beginning'
     return unless ele.strip.split(' ').include?('do')
 
-    log_error("line:#{idx + 2} #{mesg}") if @checker.file_lines[idx + 1].strip.empty?
+    log_error("line:#{idx + 2} #{mesg}") if @lines[idx + 1].strip.empty?
   end
 
   def end_error
@@ -131,13 +132,14 @@ class TestFile
     end
   end
 
-  def test_camelcase
+  def check_camelcase
     @lines.each_with_index do |line, line_num|
       next unless line.match(/class\b/) && !line.match(/\b[A-Z]/)
 
       message_error = "#{@file_path}: in line:#{line_num + 1}
 E: Use CamelCase after class keyword"
       @errors << message_error
+      @errors_number += 1
     end
   end
 
@@ -148,6 +150,7 @@ E: Use CamelCase after class keyword"
       message_error = "#{@file_path}: in line:#{line_num + 1}
 E: Line is too long. [#{line.length}/120]"
       @errors << message_error
+      @errors_number += 1
     end
   end
 
@@ -158,10 +161,12 @@ E: Line is too long. [#{line.length}/120]"
       message_error = "#{@file_path}: in line:#{line_num + 1}
 E: Expected empty line before def keyword"
       @errors << message_error
+      @errors_number += 1
     end
   end
 
   def log_error(error_mesg)
     @errors << error_mesg
+    @errors_number += 1
   end
 end
