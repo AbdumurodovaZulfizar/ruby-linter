@@ -118,7 +118,6 @@ class TestFile
       cur_val = indent_val
     end
   end
-
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def indent_error(ele, idx, exp_ele, mesg)
