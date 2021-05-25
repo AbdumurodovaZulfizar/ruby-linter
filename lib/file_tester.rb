@@ -130,7 +130,7 @@ class TestFile
   end
 
   private
-  
+
   def check_class_empty_line(ele, idx)
     mesg = 'Extra empty line detected at class body beginning'
     return unless ele.strip.split.first.eql?('class')
