@@ -4,7 +4,7 @@
 
 ## Game description📄
 
-**This ruby linter** checks for the follwing errors/warnings:<br>
+**This ruby linter** checks for the following errors/warnings:<br>
 1. Check for trailing spaces
 2. Check for the wrong indentation
 3. Check for missing/unexpected tags i.e. '( )', '[ ]', and '{ }'
@@ -15,7 +15,7 @@
 8. Check line length
 9. Check space before methods
 
-#### Below you can see good, bad and empty code examples and their test results on console
+#### Below you can see good, bad and empty code examples and their test results on the console
 
 Good code passes this test successfully!👍
 ~~~ruby
@@ -62,7 +62,7 @@ end
 Console uotput
 <img src="./Images/bad_test.PNG" alt="" style="width: 100%;">
 
-Empty file shows warning to the user!👐
+The empty file shows a warning to the user!👐
 ~~~ruby
 # Emty Code
 
@@ -91,18 +91,20 @@ Console uotput
 * [Author](#author)
 * [License](#license)
 
-## Necessary requirements
+## Requirements
 
 - gem install colorize
 - gem install bundler
 
 ## Getting started
+- firstly install all requirements above
 - open your terminal
 - clone the repository `$ git clone https://github.com/AbdumurodovaZulfizar/ruby-linter.git`
 - cd ruby-linter
-- code . in the terminal
-- open the downloaded repository with vscode.
+- open the downloaded repository with your code editor.
 - Run the command `$ ruby ./bin/main.rb ./folder/your_file.rb`
+
+For instance, to see run good_code write on terminal :`ruby ./bin/main.rb ./example/good_code.rb` 
 ## RSpec test Instructions
 
 <ol>
@@ -136,7 +138,7 @@ Ruby 3.0.1
 
 Contributions, issues and feature requests are welcome!
 
-You can do it on [issues page](https://github.com/AbdumurodovaZulfizar/ruby-linter/issues/4).
+You can do it on [issues page](https://github.com/AbdumurodovaZulfizar/ruby-linter/issues/2).
 
 ## Show your support
 
