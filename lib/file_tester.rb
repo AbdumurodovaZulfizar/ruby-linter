@@ -52,37 +52,6 @@ class TestFile
     end
   end
 
-  def check_class_empty_line(ele, idx)
-    mesg = 'Extra empty line detected at class body beginning'
-    return unless ele.strip.split.first.eql?('class')
-
-    log_error("line:#{idx + 2} #{mesg}") if @lines[idx + 1].strip.empty?
-  end
-
-  def check_def_empty_line(ele, idx)
-    mesg1 = 'Extra empty line detected at method body beginning'
-    mesg2 = 'Use empty lines between method definition'
-
-    return unless ele.strip.split.first.eql?('def')
-
-    log_error("line:#{idx + 2} #{mesg1}") if @lines[idx + 1].strip.empty?
-    log_error("line:#{idx + 1} #{mesg2}") if @lines[idx - 1].strip.split.first.eql?('end')
-  end
-
-  def check_end_empty_line(ele, idx)
-    mesg = 'Extra empty line detected at block body end'
-    return unless ele.strip.split.first.eql?('end')
-
-    log_error("line:#{idx} #{mesg}") if @lines[idx - 1].strip.empty?
-  end
-
-  def check_do_empty_line(ele, idx)
-    mesg = 'Extra empty line detected at block body beginning'
-    return unless ele.strip.split.include?('do')
-
-    log_error("line:#{idx + 2} #{mesg}") if @lines[idx + 1].strip.empty?
-  end
-
   def end_error
     keyw_count = 0
     end_count = 0
@@ -119,18 +88,6 @@ class TestFile
     end
   end
   # rubocop:enable Metrics/CyclomaticComplexity
-
-  def indent_error(ele, idx, exp_ele, mesg)
-    strip_line = ele.strip.split
-    emp = ele.match(/^\s*\s*/)
-    end_chk = emp[0].size.eql?(exp_ele.zero? ? 0 : exp_ele - 2)
-
-    if ele.strip.eql?('end') || strip_line.first == 'elsif' || strip_line.first == 'when'
-      log_error("line:#{idx + 1} #{mesg}") unless end_chk
-    elsif !emp[0].size.eql?(exp_ele)
-      log_error("line:#{idx + 1} #{mesg}")
-    end
-  end
 
   def check_camelcase_class
     @lines.each_with_index do |line, line_num|
@@ -169,6 +126,49 @@ class TestFile
       message_error = "line:#{line_num + 1} Expected empty line before def keyword"
       @errors << message_error
       @errors_number += 1
+    end
+  end
+  private
+  def check_class_empty_line(ele, idx)
+    mesg = 'Extra empty line detected at class body beginning'
+    return unless ele.strip.split.first.eql?('class')
+
+    log_error("line:#{idx + 2} #{mesg}") if @lines[idx + 1].strip.empty?
+  end
+
+  def check_def_empty_line(ele, idx)
+    mesg1 = 'Extra empty line detected at method body beginning'
+    mesg2 = 'Use empty lines between method definition'
+
+    return unless ele.strip.split.first.eql?('def')
+
+    log_error("line:#{idx + 2} #{mesg1}") if @lines[idx + 1].strip.empty?
+    log_error("line:#{idx + 1} #{mesg2}") if @lines[idx - 1].strip.split.first.eql?('end')
+  end
+
+  def check_end_empty_line(ele, idx)
+    mesg = 'Extra empty line detected at block body end'
+    return unless ele.strip.split.first.eql?('end')
+
+    log_error("line:#{idx} #{mesg}") if @lines[idx - 1].strip.empty?
+  end
+
+  def check_do_empty_line(ele, idx)
+    mesg = 'Extra empty line detected at block body beginning'
+    return unless ele.strip.split.include?('do')
+
+    log_error("line:#{idx + 2} #{mesg}") if @lines[idx + 1].strip.empty?
+  end
+
+  def indent_error(ele, idx, exp_ele, mesg)
+    strip_line = ele.strip.split
+    emp = ele.match(/^\s*\s*/)
+    end_chk = emp[0].size.eql?(exp_ele.zero? ? 0 : exp_ele - 2)
+
+    if ele.strip.eql?('end') || strip_line.first == 'elsif' || strip_line.first == 'when'
+      log_error("line:#{idx + 1} #{mesg}") unless end_chk
+    elsif !emp[0].size.eql?(exp_ele)
+      log_error("line:#{idx + 1} #{mesg}")
     end
   end
 
